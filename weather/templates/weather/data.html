@@ -1,0 +1,108 @@
+<!-- the_weather/weather/templates/weather/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Backyard Farm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+	<link rel="stylesheet" href="data.css" />
+</head>
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container" style="text-align: center;">
+                <h1 class="title">
+                    Backyard Farm
+                </h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+					{% for weather in weather_data|slice:":1" %}
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-left">
+                                <figure class="image is-50x50">
+                                    <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <a href="data/?q={{ weather.city }}"<span class="title">{{ weather.city }}</span>
+                                        <br>
+                                        <span class="subtitle">{{ weather.temperature }}° C</span>
+                                        <br> {{ weather.description }}
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+	<div class="container-fluid" style="text-align: center;">
+
+		<div class="text">
+			{% for weather in weather_data|slice:":1" %}
+			<p><b>Crop</b>: <a href="/data/?q={{ weather.city }}&crp=Tomato">Tomato</a> | <a href="/data/?q={{ weather.city }}&crp=potato">Potato</a> | <a href="/data/?q={{ weather.city }}&crp=beans">Beans</a> | <a href="/data/?q={{ weather.city }}&crp=cauliflower">Cauliflower</a></p>
+			{% endfor %}
+			<p style="font-size: 18px;"><b>Optimum Temperature:</b>
+				{% for crop in crops|slice:":1" %}
+				{{ crop.temp_start }} to {{ crop.temp_end }}
+				{% endfor %}
+			</p>
+
+			<br>
+			<div style="color: green; font-size: 20px;">This crop is suitable to be grown!</div>
+		</div>
+		</br>
+		<!--
+		<form>
+
+				<div class="form-group">
+
+				    <div class="selectdiv">
+
+					    <select>
+							<option value="" selected="selected">Select Plant</option>
+							{% for crop in crops %}
+							<option value="{{ crop }}">{{ crop }}</option>
+							{% endfor %}
+						</select>
+
+					</div>
+
+				    <input type="button" value="Search" id="button">
+
+			    </div>
+			</form>
+		-->
+
+		<table width="60%"; border="2" style="background-colour: #84ed86"; align="center";bgcolor="#00FF00">
+      		<tr>
+				{% for t in time %}
+				<th style="text-align: center;">{{ t }}</th>
+				{% endfor %}
+      		</tr>
+      		<tr>
+				{% for data in weather_data %}
+				<td style="text-align: center;">{{ data.temperature }} °C</td>
+				{% endfor %}
+      		</tr>
+
+		</table>
+		</br></br>
+
+	</div>
+    <footer class="footer">
+    </footer>
+</body>
+</html>
